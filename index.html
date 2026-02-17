@@ -6,16 +6,17 @@
     <title>CIMB Clicks - Mobile Banking Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         cimb: {
-                            red: '#CC1431', 
-                            dark: '#8B0000', 
+                            red: '#E11D33', 
+                            dark: '#B91C1C', 
                             gold: '#D4AF37', 
-                            light: '#F3F4F9',
+                            slate: '#334155',
                         }
                     }
                 }
@@ -38,34 +39,47 @@
             overflow: hidden;
         }
 
-        /* --- THEME SYSTEM --- */
+        .clicks-font { font-family: 'Dancing Script', cursive; }
+
+        /* --- UI SLANT DIVIDER --- */
+        .header-slant {
+            position: relative;
+            background-color: #E11D33;
+            clip-path: polygon(0 0, 100% 0, 100% 82%, 0% 100%);
+            transition: all 0.5s ease;
+        }
+
+        /* --- THEME SYSTEM (SWAPPED) --- */
         
-        /* New User (Standard Red) */
-        .theme-new .inner-screen { background-color: #FFF5F5 !important; }
-        .theme-new .cimb-gradient { background: linear-gradient(135deg, #FF3D3D 0%, #CC1431 100%) !important; }
-        .theme-new .stats-card { border-top: 4px solid #FF3D3D !important; }
+        /* 1. First Time User (NOW GREY BG + 0.00 Balance) */
+        .theme-first-time .header-slant { background: #334155 !important; }
+        .theme-first-time #eva-bot { border-color: #334155 !important; }
+        .theme-first-time #eva-bot-inner { background-color: #475569 !important; }
+        .theme-first-time #qr-circle { color: #334155 !important; }
+        .theme-first-time #duitnow-card { border: 2px dashed #D1D5DB; }
+        .theme-first-time #setup-progress { display: block !important; }
+        .theme-first-time #main-services { opacity: 0.6; filter: grayscale(0.4); pointer-events: none; }
 
-        /* First Time User (Simplified Gray/Blue) */
-        .theme-first-time .inner-screen { background-color: #fdfdfd !important; }
-        .theme-first-time .cimb-gradient { background: linear-gradient(135deg, #6b7280 0%, #374151 100%) !important; }
-        .theme-first-time .stats-card { border: 1px dashed #d1d5db !important; }
-        .theme-first-time #complex-stats { display: none !important; }
-        .theme-first-time #onboarding-setup { display: block !important; }
+        /* 2. Standard New User (NOW RED BG + Rashid Omar + 1245 Balance) */
+        .theme-new .header-slant { background: #E11D33 !important; }
+        .theme-new #eva-bot { border-color: #E11D33 !important; }
+        .theme-new #eva-bot-inner { background-color: #EF4444 !important; }
+        .theme-new #qr-circle { color: #E11D33 !important; }
 
-        /* Existing User (FULL GOLDEN THEME) */
-        .theme-existing .inner-screen { background-color: #FFFDF5 !important; background-image: radial-gradient(#d4af3715 2px, transparent 2px); background-size: 24px 24px; }
-        .theme-existing .cimb-gradient { background: linear-gradient(135deg, #D4AF37 0%, #AA8A2E 100%) !important; border-bottom: 2px solid #8B6B1B !important; }
-        .theme-existing .cimb-gradient * { color: #2D240E !important; } /* Darker text for readability on gold */
-        .theme-existing .stats-card { border: 1px solid #D4AF37 !important; box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.15) !important; }
-        .theme-existing #logoC { color: #AA8A2E !important; }
-        .theme-existing .text-cimb-red { color: #AA8A2E !important; }
-        .theme-existing .bg-cimb-red { background-color: #D4AF37 !important; color: #FFFFFF !important; }
-        .theme-existing .bottom-nav { border-top: 1px solid #D4AF37 !important; background: #FFFFFF !important; }
+        /* 3. Existing User (GOLDEN THEME) */
+        .theme-existing .inner-screen { background-color: #FFFDF5 !important; }
+        .theme-existing .header-slant { background: linear-gradient(135deg, #D4AF37 0%, #AA8A2E 100%) !important; }
+        .theme-existing .header-slant * { color: #2D240E !important; }
+        .theme-existing #eva-bot { border-color: #D4AF37 !important; }
+        .theme-existing #eva-bot-inner { background-color: #AA8A2E !important; }
+        .theme-existing #qr-circle { color: #AA8A2E !important; }
 
-        /* Lunar New Year Theme (Festive Red/Gold) */
-        .theme-lunar .inner-screen { background-color: #FFF9E6 !important; background-image: radial-gradient(#d32f2f10 2px, transparent 2px); background-size: 20px 20px; }
-        .theme-lunar .cimb-gradient { background: linear-gradient(135deg, #B71C1C 0%, #800000 100%) !important; border-bottom: 3px solid #FFD700 !important; }
+        /* 4. Lunar Festive */
+        .theme-lunar .inner-screen { background-color: #FFF9E6 !important; }
+        .theme-lunar .header-slant { background: linear-gradient(135deg, #B71C1C 0%, #800000 100%) !important; }
+        .theme-lunar .festive-element { display: block; animation: float-festive 4s ease-in-out infinite; }
 
+        /* Frame */
         .phone-container {
             position: relative;
             width: min(365px, 90vw);
@@ -80,7 +94,7 @@
         .inner-screen {
             position: absolute;
             inset: 12px;
-            background: #f9fafb;
+            background: #F3F4F6;
             border-radius: 2.8rem;
             overflow: hidden;
             display: flex;
@@ -88,31 +102,22 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .cimb-gradient {
-            background: linear-gradient(135deg, #CC1431 0%, #8B0000 100%);
-            transition: all 0.5s ease;
-        }
-
+        /* Festive Objects */
         .festive-element {
             display: none;
             position: absolute;
             z-index: 80;
             pointer-events: none;
             font-size: 36px;
-        }
-        
-        .theme-lunar .festive-element { 
-            display: block; 
-            animation: float-festive 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.9)) 
-                    drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)) 
-                    drop-shadow(0 0 25px rgba(255, 61, 61, 0.2));
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
         }
 
         @keyframes float-festive {
             0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
             50% { transform: translateY(-20px) rotate(5deg) scale(1.1); }
         }
+
+        .service-icon-label { font-size: 9px; line-height: 1.1; font-weight: 700; color: #374151; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -125,231 +130,202 @@
             <div class="festive-element top-[45%] right-8" style="animation-delay: -1.5s">🧧</div>
             <div class="festive-element bottom-[25%] left-10" style="animation-delay: -0.5s">🏮</div>
 
-            <!-- System Bar -->
-            <div class="h-10 cimb-gradient flex justify-between items-center px-8 text-xs font-medium z-20 select-none text-white pt-4">
-                <span>9:41</span>
-                <div class="flex gap-1.5">
+            <!-- UI Header -->
+            <div class="header-slant text-white pt-10 pb-20 px-6 transition-all duration-500 z-10">
+                <div class="absolute top-4 left-8 text-[10px] font-bold opacity-80">9:41</div>
+                <div class="absolute top-4 right-8 flex gap-1.5 text-[10px] opacity-80">
                     <i class="fas fa-signal"></i>
                     <i class="fas fa-wifi"></i>
                     <i class="fas fa-battery-full"></i>
                 </div>
+
+                <div class="flex justify-end gap-4 mt-2">
+                    <i class="fas fa-cog text-lg opacity-80 cursor-pointer hover:opacity-100" onclick="switchPage('pageDemo')"></i>
+                    <i class="fas fa-question-circle text-lg opacity-80"></i>
+                </div>
+
+                <div class="mt-2">
+                    <h1 class="text-2xl font-bold tracking-tight leading-tight">CIMB <span class="clicks-font font-normal ml-0.5">Clicks</span></h1>
+                    <div class="flex items-center mt-1 cursor-pointer group" onclick="toggleUserStatusTheme()">
+                        <p class="text-sm font-medium opacity-90 tracking-tight leading-none">Welcome back, <span id="displayName" class="font-bold">Rashid Omar</span></p>
+                        <i class="fas fa-chevron-down ml-2 text-[10px] opacity-70 group-hover:translate-y-0.5 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- EVA Bot -->
+                <div id="eva-bot" class="absolute -bottom-2 right-8 w-14 h-14 bg-white rounded-full border-4 border-cimb-red shadow-lg flex flex-col items-center justify-center overflow-hidden z-20 cursor-pointer active:scale-90 transition-all duration-500">
+                    <div class="bg-red-500 w-full h-full flex flex-col items-center justify-center" id="eva-bot-inner">
+                        <i class="fas fa-user-circle text-white text-2xl"></i>
+                        <span class="text-[7px] font-black text-white leading-none mt-0.5 uppercase tracking-tighter">Hi, I'm EVA</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Hardware Notch -->
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-36 h-7 bg-black rounded-b-2xl z-30"></div>
-
-            <!-- Scrollable Content -->
-            <div id="screenContent" class="flex-1 overflow-y-auto no-scrollbar relative pb-20">
+            <!-- Scrollable Content Area -->
+            <div id="screenContent" class="flex-1 overflow-y-auto no-scrollbar relative -mt-8 px-4 pb-24 z-10">
                 
-                <!-- PAGE: HOME -->
-                <div id="pageHome" class="page-section">
-                    <div class="cimb-gradient text-white pt-8 pb-16 px-6 rounded-b-[2.5rem] relative z-10 shadow-lg">
-                        <div class="flex justify-between items-center mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                                    <span class="text-cimb-red font-black text-xl transition-colors duration-500" id="logoC">C</span>
-                                </div>
-                                <div>
-                                    <h1 class="text-[10px] font-bold opacity-70 uppercase tracking-widest" id="greetingText">Welcome Back</h1>
-                                    <p class="text-lg font-bold leading-none" id="userName">Ahmad Ibrahim</p>
-                                </div>
-                            </div>
-                            <button class="relative p-2" onclick="switchPage('pageInbox')">
-                                <i class="far fa-bell text-xl text-white" id="bellIcon"></i>
-                                <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full border-2 border-cimb-red" id="notifDot"></span>
-                            </button>
-                        </div>
-
-                        <div class="stats-card bg-white text-gray-800 rounded-2xl p-6 shadow-xl relative -mb-24 transition-all duration-500">
-                            <div class="flex justify-between items-start mb-4 border-b border-gray-100 pb-4">
-                                <div>
-                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Savings Account-i</p>
-                                    <h2 class="text-3xl font-black text-gray-900 mt-1" id="mainBalance">RM 12,450.00</h2>
-                                    <p class="text-[10px] text-green-600 font-bold mt-1 tracking-tight" id="statusBadge">
-                                        <i class="fas fa-check-circle mr-1"></i> SECURE & ACTIVE
-                                    </p>
-                                </div>
-                                <button onclick="showBottomSheet()" class="bg-cimb-red text-white p-3 rounded-xl shadow-lg hover:brightness-90 transition" id="actionBtn">
-                                    <i class="fas fa-exchange-alt"></i>
-                                </button>
-                            </div>
-                            
-                            <!-- Complex Stats -->
-                            <div id="complex-stats" class="flex justify-between text-center">
-                                <div class="flex-1 border-r border-gray-100">
-                                    <p class="text-[9px] text-gray-400 font-bold uppercase">Points</p>
-                                    <p class="text-sm font-bold text-gray-800" id="pointsVal">4,850</p>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-[9px] text-gray-400 font-bold uppercase">Invest</p>
-                                    <p class="text-sm font-bold text-gray-800" id="investVal">RM 5.2k</p>
-                                </div>
-                            </div>
-
-                            <!-- Simplified Onboarding Stats (Only for First Timers) -->
-                            <div id="onboarding-setup" class="hidden">
-                                <div class="flex justify-between items-center mb-2">
-                                    <p class="text-[10px] font-bold text-gray-400 uppercase">Account Setup</p>
-                                    <p class="text-[10px] font-bold text-cimb-red">33% Complete</p>
-                                </div>
-                                <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
-                                    <div class="bg-cimb-red h-full w-1/3"></div>
-                                </div>
-                                <p class="text-[9px] text-gray-500 mt-2 italic">Next step: Fund your account to start banking.</p>
-                            </div>
+                <!-- DuitNow Card -->
+                <div id="duitnow-card" class="bg-white rounded-xl shadow-md p-5 mb-6 transition-all duration-500">
+                    <div class="flex justify-between items-center mb-1">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">DuitNow Transfer</p>
+                        <img src="https://www.duitnow.com.my/img/duitnow-logo.png" class="h-3 opacity-60" alt="DuitNow">
+                    </div>
+                    <div class="flex items-baseline gap-2 py-2 border-b border-gray-100">
+                        <span class="text-xs font-bold text-gray-400">MYR</span>
+                        <input type="text" placeholder="Enter Amount" id="mainBalance" class="bg-transparent text-lg font-black text-gray-800 outline-none w-full placeholder:font-normal placeholder:text-gray-300">
+                        <div class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center shrink-0 text-cimb-red" id="qr-circle">
+                            <i class="fas fa-qrcode"></i>
                         </div>
                     </div>
-
-                    <div class="h-28"></div>
-
-                    <div class="px-5 pb-4 space-y-6">
-                        <div class="grid grid-cols-4 gap-3 text-center">
-                            <div class="flex flex-col items-center gap-1.5 group cursor-pointer" onclick="triggerCTEvent('Transfer Initiated')">
-                                <div class="w-14 h-14 rounded-2xl bg-white text-cimb-red flex items-center justify-center shadow-sm border border-gray-50 group-active:scale-95 transition nav-icon-bg">
-                                    <i class="fas fa-paper-plane text-xl"></i>
-                                </div>
-                                <span class="text-[10px] font-bold text-gray-600">Transfer</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-1.5 group cursor-pointer" onclick="showBottomSheet()">
-                                <div class="w-14 h-14 rounded-2xl bg-white text-cimb-red flex items-center justify-center shadow-sm border border-gray-50 group-active:scale-95 transition nav-icon-bg">
-                                    <i class="fas fa-file-invoice-dollar text-xl"></i>
-                                </div>
-                                <span class="text-[10px] font-bold text-gray-600">Bills</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-1.5 group cursor-pointer" onclick="showInterstitial()">
-                                <div class="w-14 h-14 rounded-2xl bg-white text-cimb-red flex items-center justify-center shadow-sm border border-gray-100 group-active:scale-95 transition nav-icon-bg">
-                                    <i class="fas fa-tag text-xl"></i>
-                                </div>
-                                <span class="text-[10px] font-bold text-gray-600">Deals</span>
-                            </div>
-                            <div onclick="toggleUserStatusTheme()" class="flex flex-col items-center gap-1.5 group cursor-pointer">
-                                <div class="w-14 h-14 rounded-2xl bg-white text-cimb-red flex items-center justify-center shadow-sm border border-gray-100 group-active:scale-95 transition nav-icon-bg">
-                                    <i class="fas fa-user-gear text-xl"></i>
-                                </div>
-                                <span class="text-[10px] font-bold text-gray-600">Cycle</span>
-                            </div>
+                    
+                    <!-- Progress Bar (Visible only for Grey First-Time User) -->
+                    <div id="setup-progress" class="hidden mt-4 pt-2 border-t border-gray-50">
+                        <div class="flex justify-between items-center mb-1.5">
+                            <span class="text-[9px] font-black text-blue-600 uppercase tracking-tighter">Profile Completion</span>
+                            <span class="text-[9px] font-black text-blue-600">40%</span>
                         </div>
-
-                        <!-- Preferred Deals Card -->
-                        <div onclick="showInterstitial()" class="stats-card bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center group cursor-pointer active:scale-[0.98] transition-transform">
-                            <div class="flex gap-4 items-center">
-                                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-inner" id="promoIconBg">
-                                    <i class="fas fa-crown text-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm text-gray-800" id="promoTitle">CIMB Preferred Deals</h4>
-                                    <p class="text-[10px] text-gray-400" id="promoSub">Unlock your special offers now</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                        <div class="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="bg-blue-500 h-full w-[40%]"></div>
                         </div>
+                        <p class="text-[8px] text-gray-400 mt-2 italic">Finish setup to unlock all features.</p>
                     </div>
                 </div>
 
-                <!-- PAGE: CONFIG -->
-                <div id="pageDemo" class="page-section hidden">
-                    <div class="bg-white px-6 py-5 border-b border-gray-100 stats-card">
-                        <h1 class="text-base font-black text-cimb-red uppercase tracking-widest">Remote Config</h1>
+                <!-- Service Grid -->
+                <div id="main-services" class="grid grid-cols-4 gap-y-8 gap-x-2 text-center bg-white rounded-2xl p-6 shadow-sm mb-6 transition-all duration-500">
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition">
+                        <i class="fas fa-qrcode text-2xl text-red-600"></i>
+                        <span class="service-icon-label">CIMB QR Pay</span>
                     </div>
-                    <div class="p-5 space-y-4">
-                         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 stats-card">
-                            <h3 class="font-bold text-gray-800 text-xs uppercase mb-3 text-center">User Personas</h3>
-                            
-                            <button onclick="setUserType('first-time')" class="w-full py-3 mb-2 bg-blue-600 text-white rounded-xl text-xs font-bold uppercase shadow-lg transition active:scale-95">
-                                <i class="fas fa-rocket mr-2"></i> First-Time (Simplified)
-                            </button>
-
-                            <button onclick="setUserType('new')" class="w-full py-3 mb-2 bg-cimb-red text-white rounded-xl text-xs font-bold uppercase shadow-lg transition active:scale-95">
-                                <i class="fas fa-user-plus mr-2"></i> Standard New User
-                            </button>
-
-                            <button onclick="setUserType('existing')" class="w-full py-3 bg-amber-500 text-white rounded-xl text-xs font-bold uppercase shadow-lg transition active:scale-95">
-                                <i class="fas fa-crown mr-2"></i> Premium Preferred
-                            </button>
-
-                            <div class="mt-6 pt-6 border-t border-gray-100 text-center">
-                                <button onclick="toggleFestiveTheme()" class="text-xs font-bold text-gray-500 uppercase tracking-widest hover:text-cimb-red transition">
-                                    <i class="fas fa-moon mr-2"></i> Toggle Festive Mode
-                                </button>
-                            </div>
-                        </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition">
+                        <i class="fas fa-money-bill-wave text-2xl text-blue-900"></i>
+                        <span class="service-icon-label">JomPAY</span>
+                    </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition">
+                        <i class="fas fa-mobile-alt text-2xl text-gray-700"></i>
+                        <span class="service-icon-label">Top Up & Payments</span>
+                    </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition" onclick="showBottomSheet()">
+                        <i class="fas fa-exchange-alt text-2xl text-red-500"></i>
+                        <span class="service-icon-label">Transfer Money</span>
+                    </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition">
+                        <i class="fas fa-wallet text-2xl text-gray-500"></i>
+                        <span class="service-icon-label">My Accounts</span>
+                    </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition">
+                        <i class="fas fa-pen-nib text-2xl text-gray-400"></i>
+                        <span class="service-icon-label">Apply FD</span>
+                    </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition" onclick="showInterstitial()">
+                        <i class="fas fa-tag text-2xl text-red-400"></i>
+                        <span class="service-icon-label">CIMB Deals</span>
+                    </div>
+                    <div class="flex flex-col items-center group cursor-pointer active:scale-95 transition">
+                        <i class="fas fa-search-plus text-2xl text-gray-300"></i>
+                        <span class="service-icon-label">CIMB Insights</span>
                     </div>
                 </div>
 
-                <!-- PAGE: INBOX -->
-                <div id="pageInbox" class="page-section hidden flex-col h-full bg-white">
-                     <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-4">
-                        <button onclick="switchPage('pageHome')" class="text-gray-400"><i class="fas fa-arrow-left"></i></button>
-                        <h1 class="text-base font-bold text-gray-800">Notifications</h1>
-                    </div>
-                    <div class="flex-1 divide-y divide-gray-50 p-6">
-                        <div class="py-4 flex gap-4">
-                            <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center shrink-0"><i class="fas fa-info"></i></div>
-                            <div>
-                                <h4 class="font-bold text-sm text-gray-800">Welcome to CIMB Preferred</h4>
-                                <p class="text-xs text-gray-500">Your status has been upgraded to CIMB Preferred.</p>
-                            </div>
+                <!-- Carousel -->
+                <div>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 ml-1">Offers For You</p>
+                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                        <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-red-600 to-pink-500 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden active:scale-[0.98] transition">
+                            <i class="fas fa-car absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
+                            <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">BUYING A CAR?</h4>
+                            <p class="text-[9px] opacity-80 mt-1">Hire purchase rates up to 7 years.</p>
+                        </div>
+                        <div class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-indigo-700 to-blue-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden active:scale-[0.98] transition">
+                            <i class="fas fa-home absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                            <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">DREAM HOUSE?</h4>
+                            <p class="text-[9px] opacity-80 mt-1">Home financing made easy.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bottom Navigation -->
-            <div class="h-24 bottom-nav bg-white border-t border-gray-50 flex justify-around items-start pt-4 px-4 z-20 transition-all duration-500">
-                <button onclick="switchPage('pageHome')" class="flex flex-col items-center gap-1.5 w-16 group" id="navHome">
-                    <i class="fas fa-house text-lg text-cimb-red"></i>
-                    <span class="text-[9px] font-bold text-cimb-red uppercase">Home</span>
-                </button>
-                <button onclick="switchPage('pageDemo')" class="flex flex-col items-center gap-1.5 w-16 group" id="navDemo">
-                    <i class="fas fa-sliders text-lg text-gray-300"></i>
-                    <span class="text-[9px] font-bold text-gray-300 uppercase">Config</span>
-                </button>
-                <button onclick="toggleFestiveTheme()" class="flex flex-col items-center gap-1.5 w-16 group" id="navProfile">
-                    <i class="fas fa-user-circle text-lg text-gray-300" id="profileIcon"></i>
-                    <span class="text-[9px] font-bold text-gray-300 uppercase" id="profileText">Profile</span>
-                </button>
+            <!-- Nav -->
+            <div class="h-20 bg-white border-t border-gray-100 flex justify-around items-center px-4 z-[90] shadow-xl">
+                <div onclick="switchPage('pageHome')" class="flex flex-col items-center gap-1 cursor-pointer" id="navHome">
+                    <i class="fas fa-home text-lg text-cimb-red" id="navHomeIcon"></i>
+                    <span class="text-[8px] font-bold text-cimb-red uppercase" id="navHomeText">Home</span>
+                </div>
+                <div onclick="switchPage('pageDemo')" class="flex flex-col items-center gap-1 cursor-pointer opacity-40 hover:opacity-100" id="navConfig">
+                    <i class="fas fa-sliders text-lg text-gray-500"></i>
+                    <span class="text-[8px] font-bold text-gray-500 uppercase">Config</span>
+                </div>
+                <div onclick="toggleFestiveTheme()" class="flex flex-col items-center gap-1 cursor-pointer opacity-40 hover:opacity-100" id="navProfile">
+                    <i class="fas fa-user-circle text-lg text-gray-500" id="profileIcon"></i>
+                    <span class="text-[8px] font-bold text-gray-500 uppercase" id="profileText">Profile</span>
+                </div>
+            </div>
+
+            <!-- CONFIG OVERLAY -->
+            <div id="pageDemo" class="absolute inset-0 bg-white z-[100] hidden flex-col transition-all">
+                <div class="bg-gray-50 px-6 py-10 border-b border-gray-200 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-base font-black text-cimb-red uppercase tracking-widest">Remote Config</h1>
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Manage Personas & Features</p>
+                    </div>
+                    <button onclick="switchPage('pageHome')" class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="p-6 space-y-4 overflow-y-auto">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="font-black text-gray-800 text-[10px] uppercase tracking-widest mb-4">Select User Persona</h3>
+                        
+                        <button onclick="setUserType('new')" class="w-full py-3.5 mb-2 bg-red-600 text-white rounded-xl text-xs font-bold uppercase active:scale-95 transition shadow-lg">1. Rashid Omar (Red Theme)</button>
+                        <button onclick="setUserType('first-time')" class="w-full py-3.5 mb-2 bg-slate-600 text-white rounded-xl text-xs font-bold uppercase active:scale-95 transition shadow-lg">2. First-Time (Grey + 0.00)</button>
+                        <button onclick="setUserType('existing')" class="w-full py-3.5 bg-amber-500 text-white rounded-xl text-xs font-bold uppercase active:scale-95 transition shadow-lg">3. Preferred Gold User</button>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-2xl p-6 border-2 border-dashed border-gray-200 text-center">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase mb-3 text-center">Theme Toggle</p>
+                        <button onclick="toggleFestiveTheme()" class="text-xs font-black text-amber-600 border-b-2 border-amber-200 pb-1 uppercase tracking-widest">Lunar Festive UI</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Overlays -->
-            <div id="interstitialModal" class="absolute inset-0 z-[100] bg-black/0 backdrop-blur-sm flex items-center justify-center hidden opacity-0 transition-all duration-300">
+            <div id="interstitialModal" class="absolute inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-center justify-center hidden opacity-0 transition-all duration-300">
                 <div class="bg-white w-[88%] rounded-3xl overflow-hidden shadow-2xl transform scale-90 transition-transform duration-300" id="interstitialContent">
-                    <div class="h-40 bg-cimb-red flex items-center justify-center p-6 relative" id="modalHeader">
+                    <div class="h-44 bg-cimb-red flex items-center justify-center p-8 relative" id="modalHeader">
                         <button onclick="hideInterstitial()" class="absolute top-4 right-4 text-white/50 hover:text-white"><i class="fas fa-times text-xl"></i></button>
                         <div class="text-center text-white">
-                            <p class="text-[10px] font-black uppercase tracking-widest mb-1">Exclusive Offer</p>
-                            <h2 class="text-2xl font-black">GET RM250</h2>
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] mb-2 opacity-80">CIMB Rewards</p>
+                            <h2 class="text-3xl font-black tracking-tighter">RM250 CASHBACK</h2>
                         </div>
                     </div>
                     <div class="p-8 text-center">
-                        <h3 class="font-bold text-gray-800 mb-2">Welcome Gift</h3>
-                        <p class="text-xs text-gray-500 mb-6">Receive RM250 cashback on your first credit card application today.</p>
-                        <button onclick="hideInterstitial()" class="w-full bg-cimb-red text-white py-4 rounded-2xl font-black text-xs uppercase shadow-xl shadow-red-100" id="modalBtn">Apply Now</button>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2">Apply for CIMB e-Credit</h3>
+                        <p class="text-xs text-gray-500 mb-8 leading-relaxed">Approved in 60 seconds. Exclusive pre-approved limit for you today.</p>
+                        <button onclick="hideInterstitial()" class="w-full bg-cimb-red text-white py-4 rounded-2xl font-black text-xs uppercase shadow-xl shadow-red-100" id="modalBtn">Apply Instantly</button>
                     </div>
                 </div>
             </div>
 
-            <div id="bottomSheet" class="absolute inset-0 z-[90] bg-black/0 hidden flex flex-col justify-end transition-colors duration-300" onclick="if(event.target === this) hideBottomSheet()">
-                <div class="bg-white w-full rounded-t-[3rem] p-8 shadow-2xl transform translate-y-full transition-transform duration-500" id="bottomSheetContent">
-                    <div class="w-12 h-1.5 bg-gray-100 rounded-full mx-auto mb-6"></div>
-                    <div class="flex gap-5 items-center mb-8">
-                        <div class="w-14 h-14 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-2xl"><i class="fas fa-check-circle"></i></div>
+            <div id="bottomSheet" class="absolute inset-0 z-[150] bg-black/0 hidden flex flex-col justify-end transition-colors duration-300" onclick="if(event.target === this) hideBottomSheet()">
+                <div class="bg-white w-full rounded-t-[3rem] p-10 shadow-2xl transform translate-y-full transition-transform duration-500" id="bottomSheetContent">
+                    <div class="w-12 h-1.5 bg-gray-100 rounded-full mx-auto mb-8"></div>
+                    <div class="flex gap-5 items-center mb-10">
+                        <div class="w-16 h-16 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-3xl"><i class="fas fa-check-circle"></i></div>
                         <div>
-                            <h3 class="font-bold text-lg text-gray-900">Success</h3>
-                            <p class="text-xs text-gray-400 mt-1">Transaction Ref: <span class="font-bold">CIMB-PREF-OK</span></p>
+                            <h3 class="font-black text-xl text-gray-900 tracking-tight leading-none">Confirmed!</h3>
+                            <p class="text-xs text-gray-400 mt-2 font-medium">Ref: <span class="font-bold text-gray-700">CIMB-CLICK-OK</span></p>
                         </div>
                     </div>
-                    <button onclick="hideBottomSheet()" class="w-full bg-cimb-red text-white py-4 rounded-2xl font-black text-xs uppercase" id="sheetBtn">Dismiss</button>
+                    <button onclick="hideBottomSheet()" class="w-full bg-cimb-red text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg shadow-red-100" id="sheetBtn">Dismiss</button>
                 </div>
             </div>
 
-            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-gray-200 rounded-full z-30"></div>
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-gray-200 rounded-full z-[100]"></div>
         </div>
     </div>
 
     <!-- Toast -->
-    <div id="eventToast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-8 py-3.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-[200] text-xs font-bold uppercase flex items-center gap-3">
-        <i class="fas fa-star text-amber-400"></i>
-        <span id="eventToastMsg">Preferred Config Applied</span>
+    <div id="eventToast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-8 py-4 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-[300] text-xs font-black uppercase tracking-widest flex items-center gap-3">
+        <i class="fas fa-bolt text-yellow-400 animate-pulse" id="toastIcon"></i>
+        <span id="eventToastMsg">Update Applied</span>
     </div>
 
     <script>
@@ -359,55 +335,62 @@
         function setUserType(type) {
             userStatus = type;
             const appFrame = document.getElementById('appFrame');
-            const statusBadge = document.getElementById('statusBadge');
-            const greeting = document.getElementById('greetingText');
+            const displayName = document.getElementById('displayName');
             const mainBalance = document.getElementById('mainBalance');
-            const promoTitle = document.getElementById('promoTitle');
-            const promoSub = document.getElementById('promoSub');
-            const actionBtn = document.getElementById('actionBtn');
             const modalHeader = document.getElementById('modalHeader');
             const modalBtn = document.getElementById('modalBtn');
             const sheetBtn = document.getElementById('sheetBtn');
+            const qrCircle = document.getElementById('qr-circle');
+            const evaBotInner = document.getElementById('eva-bot-inner');
+            const navIcon = document.getElementById('navHomeIcon');
+            const navText = document.getElementById('navHomeText');
 
             appFrame.classList.remove('theme-new', 'theme-existing', 'theme-first-time');
             
+            // Reset styles
+            modalHeader.style.background = "";
+            modalBtn.style.background = "";
+            sheetBtn.style.background = "";
+            qrCircle.style.color = "";
+            evaBotInner.style.background = "";
+            navIcon.style.color = "";
+            navText.style.color = "";
+
             if (type === 'first-time') {
+                // GREY THEME for First-Time
                 appFrame.classList.add('theme-first-time');
-                statusBadge.innerHTML = '<i class="fas fa-star mr-1"></i> WELCOME';
-                statusBadge.className = "text-[10px] text-blue-600 font-bold mt-1 tracking-tight";
-                greeting.innerText = "Welcome to CIMB";
-                mainBalance.innerText = "RM 0.00";
-                promoTitle.innerText = "Getting Started Guide";
-                promoSub.innerText = "Learn how to use CIMB Clicks";
-                actionBtn.style.background = "#4B5563";
+                displayName.innerText = "New User";
+                mainBalance.value = "0.00";
+                modalHeader.style.background = "#334155";
+                modalBtn.style.background = "#334155";
+                sheetBtn.style.background = "#334155";
+                qrCircle.style.color = "#334155";
+                evaBotInner.style.background = "#334155";
+                navIcon.style.color = "#334155";
+                navText.style.color = "#334155";
+                triggerCTEvent('Churn Prev (Grey) Enabled');
             } else if (type === 'existing') {
+                // GOLD THEME for Preferred
                 appFrame.classList.add('theme-existing');
-                statusBadge.innerHTML = '<i class="fas fa-crown mr-1"></i> PREFERRED-I';
-                statusBadge.className = "text-[10px] text-[#8B6B1B] font-bold mt-1 tracking-tight";
-                greeting.innerText = "CIMB Preferred";
-                mainBalance.innerText = "RM 42,450.00";
-                promoTitle.innerText = "Preferred Lifestyle Deals";
-                promoSub.innerText = "Concierge & Airport Lounge Access";
-                actionBtn.style.background = "#D4AF37";
+                displayName.innerText = "Rashid Omar (Preferred)";
+                mainBalance.value = "42,450.00";
                 modalHeader.style.background = "#D4AF37";
                 modalBtn.style.background = "#D4AF37";
                 sheetBtn.style.background = "#D4AF37";
+                qrCircle.style.color = "#AA8A2E";
+                evaBotInner.style.background = "#AA8A2E";
+                navIcon.style.color = "#AA8A2E";
+                navText.style.color = "#AA8A2E";
+                triggerCTEvent('Premium Gold Enabled');
             } else {
+                // RED THEME for Rashid Omar
                 appFrame.classList.add('theme-new');
-                statusBadge.innerHTML = '<i class="fas fa-check-circle mr-1"></i> SECURE & ACTIVE';
-                statusBadge.className = "text-[10px] text-green-600 font-bold mt-1 tracking-tight";
-                greeting.innerText = "Welcome Back";
-                mainBalance.innerText = "RM 1,200.00";
-                promoTitle.innerText = "Special Deals for You";
-                promoSub.innerText = "Unlock rewards with your spend";
-                actionBtn.style.background = "";
-                modalHeader.style.background = "";
-                modalBtn.style.background = "";
-                sheetBtn.style.background = "";
+                displayName.innerText = "Rashid Omar";
+                mainBalance.value = "1,245.50";
+                triggerCTEvent('Standard Red Active');
             }
             
             switchPage('pageHome');
-            triggerCTEvent(`STATUS: ${type.toUpperCase()}`);
         }
 
         function toggleUserStatusTheme() {
@@ -427,42 +410,25 @@
                 profileText.innerText = "Festive";
                 profileIcon.style.color = "#FFD700";
                 profileText.style.color = "#FFD700";
+                triggerCTEvent('Lunar Festive UI Active');
             } else {
                 appFrame.classList.remove('theme-lunar');
                 profileText.innerText = "Profile";
                 profileIcon.style.color = "";
                 profileText.style.color = "";
+                triggerCTEvent('Lunar UI Disabled');
             }
-            triggerCTEvent('Festive UI Toggle');
         }
 
         function switchPage(pageId) {
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(p => p.classList.add('hidden'));
-            const target = document.getElementById(pageId);
-            if (target) target.classList.remove('hidden');
-
-            const navHome = document.getElementById('navHome');
-            const navDemo = document.getElementById('navDemo');
-            const navProfile = document.getElementById('navProfile');
-            
-            const setNavState = (el, active) => {
-                if (!el) return;
-                const icon = el.querySelector('i');
-                const span = el.querySelector('span');
-                const color = (userStatus === 'existing') ? '#AA8A2E' : '#CC1431';
-                
-                if (active) {
-                    icon.style.color = color;
-                    span.style.color = color;
-                } else {
-                    icon.style.color = "#D1D5DB";
-                    span.style.color = "#D1D5DB";
-                }
-            };
-            setNavState(navHome, pageId === 'pageHome');
-            setNavState(navDemo, pageId === 'pageDemo');
-            setNavState(navProfile, pageId === 'pageInbox');
+            const demoPage = document.getElementById('pageDemo');
+            if (pageId === 'pageDemo') {
+                demoPage.classList.remove('hidden');
+                demoPage.classList.add('flex');
+            } else {
+                demoPage.classList.add('hidden');
+                demoPage.classList.remove('flex');
+            }
         }
 
         function showInterstitial() {
@@ -471,7 +437,6 @@
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
-                modal.classList.replace('bg-black/0', 'bg-black/60');
                 content.classList.replace('scale-90', 'scale-100');
             }, 10);
         }
@@ -505,12 +470,16 @@
         function triggerCTEvent(eventName) {
             const toast = document.getElementById('eventToast');
             const msg = document.getElementById('eventToastMsg');
+            const icon = document.getElementById('toastIcon');
             if (msg) msg.innerText = eventName;
+            
             if (toast) {
                 toast.classList.remove('opacity-0');
                 setTimeout(() => toast.classList.add('opacity-0'), 2500);
             }
         }
+
+        window.onload = () => setUserType('new');
     </script>
 </body>
 </html>
