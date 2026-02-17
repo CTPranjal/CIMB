@@ -49,29 +49,23 @@
             transition: all 0.5s ease;
         }
 
-        /* --- THEME SYSTEM (SWAPPED) --- */
+        /* --- THEME SYSTEM --- */
         
-        /* 1. First Time User (NOW GREY BG + 0.00 Balance) */
+        /* 1. First Time User (GREY THEME + Churn Prevention) */
         .theme-first-time .header-slant { background: #334155 !important; }
-        .theme-first-time #eva-bot { border-color: #334155 !important; }
-        .theme-first-time #eva-bot-inner { background-color: #475569 !important; }
         .theme-first-time #qr-circle { color: #334155 !important; }
         .theme-first-time #duitnow-card { border: 2px dashed #D1D5DB; }
         .theme-first-time #setup-progress { display: block !important; }
         .theme-first-time #main-services { opacity: 0.6; filter: grayscale(0.4); pointer-events: none; }
 
-        /* 2. Standard New User (NOW RED BG + Rashid Omar + 1245 Balance) */
+        /* 2. Standard User (RED THEME) */
         .theme-new .header-slant { background: #E11D33 !important; }
-        .theme-new #eva-bot { border-color: #E11D33 !important; }
-        .theme-new #eva-bot-inner { background-color: #EF4444 !important; }
         .theme-new #qr-circle { color: #E11D33 !important; }
 
-        /* 3. Existing User (GOLDEN THEME) */
+        /* 3. Existing Preferred (GOLDEN THEME) */
         .theme-existing .inner-screen { background-color: #FFFDF5 !important; }
         .theme-existing .header-slant { background: linear-gradient(135deg, #D4AF37 0%, #AA8A2E 100%) !important; }
         .theme-existing .header-slant * { color: #2D240E !important; }
-        .theme-existing #eva-bot { border-color: #D4AF37 !important; }
-        .theme-existing #eva-bot-inner { background-color: #AA8A2E !important; }
         .theme-existing #qr-circle { color: #AA8A2E !important; }
 
         /* 4. Lunar Festive */
@@ -79,7 +73,6 @@
         .theme-lunar .header-slant { background: linear-gradient(135deg, #B71C1C 0%, #800000 100%) !important; }
         .theme-lunar .festive-element { display: block; animation: float-festive 4s ease-in-out infinite; }
 
-        /* Frame */
         .phone-container {
             position: relative;
             width: min(365px, 90vw);
@@ -102,7 +95,6 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Festive Objects */
         .festive-element {
             display: none;
             position: absolute;
@@ -151,14 +143,6 @@
                         <i class="fas fa-chevron-down ml-2 text-[10px] opacity-70 group-hover:translate-y-0.5 transition-transform"></i>
                     </div>
                 </div>
-
-                <!-- EVA Bot -->
-                <div id="eva-bot" class="absolute -bottom-2 right-8 w-14 h-14 bg-white rounded-full border-4 border-cimb-red shadow-lg flex flex-col items-center justify-center overflow-hidden z-20 cursor-pointer active:scale-90 transition-all duration-500">
-                    <div class="bg-red-500 w-full h-full flex flex-col items-center justify-center" id="eva-bot-inner">
-                        <i class="fas fa-user-circle text-white text-2xl"></i>
-                        <span class="text-[7px] font-black text-white leading-none mt-0.5 uppercase tracking-tighter">Hi, I'm EVA</span>
-                    </div>
-                </div>
             </div>
 
             <!-- Scrollable Content Area -->
@@ -168,7 +152,6 @@
                 <div id="duitnow-card" class="bg-white rounded-xl shadow-md p-5 mb-6 transition-all duration-500">
                     <div class="flex justify-between items-center mb-1">
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">DuitNow Transfer</p>
-                        <img src="https://www.duitnow.com.my/img/duitnow-logo.png" class="h-3 opacity-60" alt="DuitNow">
                     </div>
                     <div class="flex items-baseline gap-2 py-2 border-b border-gray-100">
                         <span class="text-xs font-bold text-gray-400">MYR</span>
@@ -227,25 +210,16 @@
                     </div>
                 </div>
 
-                <!-- Carousel -->
+                <!-- Offers for You Carousel -->
                 <div>
                     <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 ml-1">Offers For You</p>
-                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                        <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-red-600 to-pink-500 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden active:scale-[0.98] transition">
-                            <i class="fas fa-car absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
-                            <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">BUYING A CAR?</h4>
-                            <p class="text-[9px] opacity-80 mt-1">Hire purchase rates up to 7 years.</p>
-                        </div>
-                        <div class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-indigo-700 to-blue-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden active:scale-[0.98] transition">
-                            <i class="fas fa-home absolute -top-4 -right-4 text-7xl opacity-10"></i>
-                            <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">DREAM HOUSE?</h4>
-                            <p class="text-[9px] opacity-80 mt-1">Home financing made easy.</p>
-                        </div>
+                    <div id="offers-container" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 transition-all duration-500">
+                        <!-- Dynamic content loaded via JS -->
                     </div>
                 </div>
             </div>
 
-            <!-- Nav -->
+            <!-- Bottom Navigation -->
             <div class="h-20 bg-white border-t border-gray-100 flex justify-around items-center px-4 z-[90] shadow-xl">
                 <div onclick="switchPage('pageHome')" class="flex flex-col items-center gap-1 cursor-pointer" id="navHome">
                     <i class="fas fa-home text-lg text-cimb-red" id="navHomeIcon"></i>
@@ -278,27 +252,64 @@
                         <button onclick="setUserType('first-time')" class="w-full py-3.5 mb-2 bg-slate-600 text-white rounded-xl text-xs font-bold uppercase active:scale-95 transition shadow-lg">2. First-Time (Grey + 0.00)</button>
                         <button onclick="setUserType('existing')" class="w-full py-3.5 bg-amber-500 text-white rounded-xl text-xs font-bold uppercase active:scale-95 transition shadow-lg">3. Preferred Gold User</button>
                     </div>
-                    
-                    <div class="bg-gray-50 rounded-2xl p-6 border-2 border-dashed border-gray-200 text-center">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase mb-3 text-center">Theme Toggle</p>
-                        <button onclick="toggleFestiveTheme()" class="text-xs font-black text-amber-600 border-b-2 border-amber-200 pb-1 uppercase tracking-widest">Lunar Festive UI</button>
-                    </div>
                 </div>
             </div>
 
             <!-- Overlays -->
+            
+            <!-- Step-by-Step Top Up Modal -->
+            <div id="topUpStepsModal" class="absolute inset-0 z-[250] bg-black/70 backdrop-blur-sm flex items-center justify-center hidden opacity-0 transition-all duration-300">
+                <div class="bg-white w-[90%] rounded-[2rem] overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="topUpContent">
+                    <div class="p-6 bg-slate-800 text-white flex justify-between items-center">
+                        <h3 class="font-black text-sm uppercase tracking-widest">How to fund your account</h3>
+                        <button onclick="hideTopUpSteps()" class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-white/70 hover:text-white"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black text-xs shrink-0 mt-1">1</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm text-gray-800">Open another bank app</h4>
+                                <p class="text-[11px] text-gray-500 mt-1 leading-relaxed">Log in to any other banking app where you currently have funds.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black text-xs shrink-0 mt-1">2</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm text-gray-800">Choose DuitNow Transfer</h4>
+                                <p class="text-[11px] text-gray-500 mt-1 leading-relaxed">Select 'DuitNow' or 'Transfer' and choose **CIMB Bank** as the recipient bank.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black text-xs shrink-0 mt-1">3</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm text-gray-800">Enter Account Number</h4>
+                                <p class="text-[11px] text-gray-500 mt-1 leading-relaxed">Enter your new CIMB account number: <span class="font-bold text-slate-800">8601-2245-09</span></p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-black text-xs shrink-0 mt-1"><i class="fas fa-check"></i></div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm text-gray-800">Confirm & Complete</h4>
+                                <p class="text-[11px] text-gray-500 mt-1 leading-relaxed">Confirm the transfer. Your balance will update instantly in CIMB Clicks!</p>
+                            </div>
+                        </div>
+                        <button onclick="hideTopUpSteps()" class="w-full bg-slate-800 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-xl mt-4">Got it, thanks!</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="interstitialModal" class="absolute inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-center justify-center hidden opacity-0 transition-all duration-300">
                 <div class="bg-white w-[88%] rounded-3xl overflow-hidden shadow-2xl transform scale-90 transition-transform duration-300" id="interstitialContent">
                     <div class="h-44 bg-cimb-red flex items-center justify-center p-8 relative" id="modalHeader">
                         <button onclick="hideInterstitial()" class="absolute top-4 right-4 text-white/50 hover:text-white"><i class="fas fa-times text-xl"></i></button>
                         <div class="text-center text-white">
-                            <p class="text-[10px] font-black uppercase tracking-[0.2em] mb-2 opacity-80">CIMB Rewards</p>
-                            <h2 class="text-3xl font-black tracking-tighter">RM250 CASHBACK</h2>
+                            <p class="text-[10px] font-black uppercase tracking-[0.2em] mb-2 opacity-80" id="modalValuePre">CIMB Rewards</p>
+                            <h2 class="text-3xl font-black tracking-tighter" id="modalValueMain">RM250 CASHBACK</h2>
                         </div>
                     </div>
                     <div class="p-8 text-center">
-                        <h3 class="font-bold text-gray-800 text-lg mb-2">Apply for CIMB e-Credit</h3>
-                        <p class="text-xs text-gray-500 mb-8 leading-relaxed">Approved in 60 seconds. Exclusive pre-approved limit for you today.</p>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2" id="modalTitle">Apply for CIMB e-Credit</h3>
+                        <p class="text-xs text-gray-500 mb-8 leading-relaxed" id="modalSub">Approved in 60 seconds. Exclusive pre-approved limit for you today.</p>
                         <button onclick="hideInterstitial()" class="w-full bg-cimb-red text-white py-4 rounded-2xl font-black text-xs uppercase shadow-xl shadow-red-100" id="modalBtn">Apply Instantly</button>
                     </div>
                 </div>
@@ -337,57 +348,81 @@
             const appFrame = document.getElementById('appFrame');
             const displayName = document.getElementById('displayName');
             const mainBalance = document.getElementById('mainBalance');
-            const modalHeader = document.getElementById('modalHeader');
-            const modalBtn = document.getElementById('modalBtn');
-            const sheetBtn = document.getElementById('sheetBtn');
-            const qrCircle = document.getElementById('qr-circle');
-            const evaBotInner = document.getElementById('eva-bot-inner');
             const navIcon = document.getElementById('navHomeIcon');
             const navText = document.getElementById('navHomeText');
+            const qrCircle = document.getElementById('qr-circle');
+            const offersContainer = document.getElementById('offers-container');
 
             appFrame.classList.remove('theme-new', 'theme-existing', 'theme-first-time');
             
             // Reset styles
-            modalHeader.style.background = "";
-            modalBtn.style.background = "";
-            sheetBtn.style.background = "";
             qrCircle.style.color = "";
-            evaBotInner.style.background = "";
             navIcon.style.color = "";
             navText.style.color = "";
 
             if (type === 'first-time') {
-                // GREY THEME for First-Time
+                // FIRST TIME = GREY
                 appFrame.classList.add('theme-first-time');
                 displayName.innerText = "New User";
                 mainBalance.value = "0.00";
-                modalHeader.style.background = "#334155";
-                modalBtn.style.background = "#334155";
-                sheetBtn.style.background = "#334155";
-                qrCircle.style.color = "#334155";
-                evaBotInner.style.background = "#334155";
                 navIcon.style.color = "#334155";
                 navText.style.color = "#334155";
-                triggerCTEvent('Churn Prev (Grey) Enabled');
+                
+                // Update Banners for Onboarding
+                offersContainer.innerHTML = `
+                    <div onclick="showTopUpSteps()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-400 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer relative overflow-hidden active:scale-[0.98] transition">
+                        <i class="fas fa-lightbulb absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">HOW TO TOP UP?</h4>
+                        <p class="text-[9px] opacity-80 mt-1">New to Clicks? Learn the basics here.</p>
+                    </div>
+                    <div onclick="triggerCTEvent('Security Guide Opened')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-blue-600 to-slate-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden active:scale-[0.98] transition cursor-pointer">
+                        <i class="fas fa-user-shield absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">STAY SECURE</h4>
+                        <p class="text-[9px] opacity-80 mt-1">Enable biometric login for extra safety.</p>
+                    </div>
+                `;
+                triggerCTEvent('Grey First-Time UI');
             } else if (type === 'existing') {
-                // GOLD THEME for Preferred
+                // PREFERRED = GOLD
                 appFrame.classList.add('theme-existing');
                 displayName.innerText = "Rashid Omar (Preferred)";
                 mainBalance.value = "42,450.00";
-                modalHeader.style.background = "#D4AF37";
-                modalBtn.style.background = "#D4AF37";
-                sheetBtn.style.background = "#D4AF37";
                 qrCircle.style.color = "#AA8A2E";
-                evaBotInner.style.background = "#AA8A2E";
                 navIcon.style.color = "#AA8A2E";
                 navText.style.color = "#AA8A2E";
-                triggerCTEvent('Premium Gold Enabled');
+
+                offersContainer.innerHTML = `
+                    <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-amber-600 to-yellow-800 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden">
+                        <i class="fas fa-plane-departure absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
+                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">AIRPORT LOUNGE</h4>
+                        <p class="text-[9px] opacity-80 mt-1">Exclusive access for Preferred members.</p>
+                    </div>
+                    <div onclick="triggerCTEvent('Wealth Advisor Requested')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-yellow-700 to-amber-900 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden cursor-pointer">
+                        <i class="fas fa-briefcase absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">PRIVATE WEALTH</h4>
+                        <p class="text-[9px] opacity-80 mt-1">Tailored advisory for your portfolio.</p>
+                    </div>
+                `;
+                triggerCTEvent('Preferred Gold Mode');
             } else {
-                // RED THEME for Rashid Omar
+                // NORMAL = RED
                 appFrame.classList.add('theme-new');
                 displayName.innerText = "Rashid Omar";
                 mainBalance.value = "1,245.50";
-                triggerCTEvent('Standard Red Active');
+
+                offersContainer.innerHTML = `
+                    <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-red-600 to-pink-500 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden">
+                        <i class="fas fa-car absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
+                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">BUYING A CAR?</h4>
+                        <p class="text-[9px] opacity-80 mt-1">Hire purchase rates up to 7 years.</p>
+                    </div>
+                    <div onclick="triggerCTEvent('Mortgage Guide Opened')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-indigo-700 to-blue-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden cursor-pointer">
+                        <i class="fas fa-home absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">DREAM HOUSE?</h4>
+                        <p class="text-[9px] opacity-80 mt-1">Home financing made easy.</p>
+                    </div>
+                `;
+                triggerCTEvent('Standard Red UI');
             }
             
             switchPage('pageHome');
@@ -410,13 +445,13 @@
                 profileText.innerText = "Festive";
                 profileIcon.style.color = "#FFD700";
                 profileText.style.color = "#FFD700";
-                triggerCTEvent('Lunar Festive UI Active');
+                triggerCTEvent('Lunar Festive Active');
             } else {
                 appFrame.classList.remove('theme-lunar');
                 profileText.innerText = "Profile";
                 profileIcon.style.color = "";
                 profileText.style.color = "";
-                triggerCTEvent('Lunar UI Disabled');
+                triggerCTEvent('Standard Mode');
             }
         }
 
@@ -431,12 +466,32 @@
             }
         }
 
+        function showTopUpSteps() {
+            const modal = document.getElementById('topUpStepsModal');
+            const content = document.getElementById('topUpContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.replace('scale-95', 'scale-100');
+            }, 10);
+            triggerCTEvent('Top Up Guide Opened');
+        }
+
+        function hideTopUpSteps() {
+            const modal = document.getElementById('topUpStepsModal');
+            const content = document.getElementById('topUpContent');
+            modal.classList.add('opacity-0');
+            content.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
         function showInterstitial() {
             const modal = document.getElementById('interstitialModal');
             const content = document.getElementById('interstitialContent');
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
+                modal.classList.replace('bg-black/0', 'bg-black/60');
                 content.classList.replace('scale-90', 'scale-100');
             }, 10);
         }
@@ -470,9 +525,7 @@
         function triggerCTEvent(eventName) {
             const toast = document.getElementById('eventToast');
             const msg = document.getElementById('eventToastMsg');
-            const icon = document.getElementById('toastIcon');
             if (msg) msg.innerText = eventName;
-            
             if (toast) {
                 toast.classList.remove('opacity-0');
                 setTimeout(() => toast.classList.add('opacity-0'), 2500);
