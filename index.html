@@ -686,13 +686,21 @@
 
             // clevertap.setLogLevel(4);
             console.log("User logged in with identity: " + identity);
-            clevertap.fetchVariables(
-                () => {
-                    console.log('Fetch successful');
-                    var offers = clevertap.getVariableValue("AA_Offers");
-                    console.log('AA_Offers:', offers["image1"]);
+            clevertap.fetchVariables(() => {
+                console.log('Fetch successful');
+
+                var offers = clevertap.getVariableValue("AA_Offers");
+
+                if (offers && offers.image1 && offers.image2) {
+                    console.log("Image1:", offers.image1);
+                    console.log("Image2:", offers.image2);
+
+                    renderDynamicOffers(offers.image1, offers.image2);
+                } else {
+                    console.log("No images received from CleverTap");
                 }
-            );
+            });
+
 
             //PE variables:
 
@@ -815,6 +823,21 @@
             view.classList.add('hidden');
             view.classList.remove('flex');
         }
+
+        function renderDynamicOffers(image1, image2) {
+            const offersContainer = document.getElementById('offers-container');
+
+            offersContainer.innerHTML = `
+                <div class="min-w-[260px] h-32 rounded-2xl overflow-hidden shadow-md cursor-pointer active:scale-[0.98] transition">
+                    <img src="${image1}" alt="Offer 1" class="w-full h-full object-cover">
+                </div>
+
+                <div class="min-w-[260px] h-32 rounded-2xl overflow-hidden shadow-md cursor-pointer active:scale-[0.98] transition">
+                    <img src="${image2}" alt="Offer 2" class="w-full h-full object-cover">
+                </div>
+            `;
+        }
+
 
         // window.onload = function () {
         //     clevertap.onUserLogin.push({ "Site": { "Name": "Rashid Omar","Identity":"id1", "Email": "rashid.omar@email.com", "Phone": "+60123456789" } });
