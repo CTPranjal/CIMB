@@ -192,6 +192,33 @@
             color: #374151;
             margin-top: 8px;
         }
+
+        /* ---- BANNER SKELETON LOADER ---- */
+.banner-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: #e5e7eb;
+}
+
+.banner-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.45),
+        transparent
+    );
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
     </style>
 </head>
 
@@ -600,18 +627,18 @@
                 navText.style.color = "#334155";
 
                 // Update Banners for Onboarding
-                offersContainer.innerHTML = `
-                    <div onclick="showTopUpSteps()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-400 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer relative overflow-hidden active:scale-[0.98] transition">
-                        <i class="fas fa-lightbulb absolute -top-4 -right-4 text-7xl opacity-10"></i>
-                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">HOW TO TOP UP?</h4>
-                        <p class="text-[9px] opacity-80 mt-1">New to Clicks? Learn the basics here.</p>
-                    </div>
-                    <div onclick="triggerCTEvent('Security Guide Opened')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-blue-600 to-slate-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden active:scale-[0.98] transition cursor-pointer">
-                        <i class="fas fa-user-shield absolute -top-4 -right-4 text-7xl opacity-10"></i>
-                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">STAY SECURE</h4>
-                        <p class="text-[9px] opacity-80 mt-1">Enable biometric login for extra safety.</p>
-                    </div>
-                `;
+                // offersContainer.innerHTML = `
+                //     <div onclick="showTopUpSteps()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-400 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer relative overflow-hidden active:scale-[0.98] transition">
+                //         <i class="fas fa-lightbulb absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                //         <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">HOW TO TOP UP?</h4>
+                //         <p class="text-[9px] opacity-80 mt-1">New to Clicks? Learn the basics here.</p>
+                //     </div>
+                //     <div onclick="triggerCTEvent('Security Guide Opened')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-blue-600 to-slate-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden active:scale-[0.98] transition cursor-pointer">
+                //         <i class="fas fa-user-shield absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                //         <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">STAY SECURE</h4>
+                //         <p class="text-[9px] opacity-80 mt-1">Enable biometric login for extra safety.</p>
+                //     </div>
+                // `;
                 triggerCTEvent('Grey First-Time UI');
             } else if (type === 'existing') {
                 // PREFERRED = GOLD
@@ -622,18 +649,18 @@
                 navIcon.style.color = "#AA8A2E";
                 navText.style.color = "#AA8A2E";
 
-                offersContainer.innerHTML = `
-                    <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-amber-600 to-yellow-800 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden">
-                        <i class="fas fa-plane-departure absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
-                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">AIRPORT LOUNGE</h4>
-                        <p class="text-[9px] opacity-80 mt-1">Exclusive access for Preferred members.</p>
-                    </div>
-                    <div onclick="triggerCTEvent('Wealth Advisor Requested')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-yellow-700 to-amber-900 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden cursor-pointer">
-                        <i class="fas fa-briefcase absolute -top-4 -right-4 text-7xl opacity-10"></i>
-                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">PRIVATE WEALTH</h4>
-                        <p class="text-[9px] opacity-80 mt-1">Tailored advisory for your portfolio.</p>
-                    </div>
-                `;
+                // offersContainer.innerHTML = `
+                //     <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-amber-600 to-yellow-800 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden">
+                //         <i class="fas fa-plane-departure absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
+                //         <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">AIRPORT LOUNGE</h4>
+                //         <p class="text-[9px] opacity-80 mt-1">Exclusive access for Preferred members.</p>
+                //     </div>
+                //     <div onclick="triggerCTEvent('Wealth Advisor Requested')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-yellow-700 to-amber-900 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden cursor-pointer">
+                //         <i class="fas fa-briefcase absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                //         <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">PRIVATE WEALTH</h4>
+                //         <p class="text-[9px] opacity-80 mt-1">Tailored advisory for your portfolio.</p>
+                //     </div>
+                // `;
                 triggerCTEvent('Preferred Gold Mode');
             } else {
                 // NORMAL = RED
@@ -641,23 +668,37 @@
                 displayName.innerText = "Rashid Omar";
                 mainBalance.value = "1,245.50";
 
-                offersContainer.innerHTML = `
-                    <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-red-600 to-pink-500 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden">
-                        <i class="fas fa-car absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
-                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">BUYING A CAR?</h4>
-                        <p class="text-[9px] opacity-80 mt-1">Hire purchase rates up to 7 years.</p>
-                    </div>
-                    <div onclick="triggerCTEvent('Mortgage Guide Opened')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-indigo-700 to-blue-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden cursor-pointer">
-                        <i class="fas fa-home absolute -top-4 -right-4 text-7xl opacity-10"></i>
-                        <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">DREAM HOUSE?</h4>
-                        <p class="text-[9px] opacity-80 mt-1">Home financing made easy.</p>
-                    </div>
-                `;
+                // offersContainer.innerHTML = `
+                //     <div onclick="showInterstitial()" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-red-600 to-pink-500 p-6 flex flex-col justify-end text-white shadow-md cursor-pointer group relative overflow-hidden">
+                //         <i class="fas fa-car absolute -top-4 -right-4 text-7xl opacity-10 group-hover:scale-110 transition duration-700"></i>
+                //         <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">BUYING A CAR?</h4>
+                //         <p class="text-[9px] opacity-80 mt-1">Hire purchase rates up to 7 years.</p>
+                //     </div>
+                //     <div onclick="triggerCTEvent('Mortgage Guide Opened')" class="min-w-[260px] h-32 rounded-2xl bg-gradient-to-br from-indigo-700 to-blue-500 p-6 flex flex-col justify-end text-white shadow-md relative overflow-hidden cursor-pointer">
+                //         <i class="fas fa-home absolute -top-4 -right-4 text-7xl opacity-10"></i>
+                //         <h4 class="font-black text-sm uppercase leading-tight tracking-tighter">DREAM HOUSE?</h4>
+                //         <p class="text-[9px] opacity-80 mt-1">Home financing made easy.</p>
+                //     </div>
+                // `;
                 triggerCTEvent('Standard Red UI');
             }
 
             switchPage('pageHome');
         }
+
+        function fetchAndRenderPEOffers() {
+
+    showBannerSkeleton();
+
+    clevertap.fetchVariables(() => {
+
+        var offers = clevertap.getVariableValue("AA_Offers");
+
+        if (offers && offers.image1 && offers.image2) {
+            renderDynamicOffers(offers.image1, offers.image2);
+        }
+    });
+}
 
         function toggleUserStatusTheme() {
             console.log("existing user called 1 !!!!!!!!");
@@ -687,18 +728,19 @@
             // clevertap.setLogLevel(4);
             console.log("User logged in with identity: " + identity);
             clevertap.fetchVariables(() => {
-                console.log('Fetch successful');
+                // console.log('Fetch successful');
 
-                var offers = clevertap.getVariableValue("AA_Offers");
+                // var offers = clevertap.getVariableValue("AA_Offers");
 
-                if (offers && offers.image1 && offers.image2) {
-                    console.log("Image1:", offers.image1);
-                    console.log("Image2:", offers.image2);
+                // if (offers && offers.image1 && offers.image2) {
+                //     console.log("Image1:", offers.image1);
+                //     console.log("Image2:", offers.image2);
 
-                    renderDynamicOffers(offers.image1, offers.image2);
-                } else {
-                    console.log("No images received from CleverTap");
-                }
+                //     renderDynamicOffers(offers.image1, offers.image2);
+                // } else {
+                //     console.log("No images received from CleverTap");
+                // }
+                fetchAndRenderPEOffers();
             });
 
 
@@ -712,6 +754,20 @@
             // clevertap.syncVariables()
 
         }
+function showBannerSkeleton() {
+    const offersContainer = document.getElementById('offers-container');
+
+    const skeletonWrapper = document.createElement("div");
+
+    skeletonWrapper.className = "flex gap-4 opacity-100 transition-opacity duration-700";
+
+    skeletonWrapper.innerHTML = `
+        <div class="min-w-[260px] h-32 rounded-2xl banner-skeleton"></div>
+        <div class="min-w-[260px] h-32 rounded-2xl banner-skeleton"></div>
+    `;
+
+    offersContainer.replaceChildren(skeletonWrapper);
+}
 
         function toggleFestiveTheme() {
             isLunarTheme = !isLunarTheme;
@@ -825,24 +881,42 @@
         }
 
         function renderDynamicOffers(image1, image2) {
-            const offersContainer = document.getElementById('offers-container');
 
-            offersContainer.innerHTML = `
-                <div class="min-w-[260px] h-32 rounded-2xl overflow-hidden shadow-md cursor-pointer active:scale-[0.98] transition">
-                    <img src="${image1}" alt="Offer 1" class="w-full h-full object-cover">
-                </div>
+    const offersContainer = document.getElementById('offers-container');
 
-                <div class="min-w-[260px] h-32 rounded-2xl overflow-hidden shadow-md cursor-pointer active:scale-[0.98] transition">
-                    <img src="${image2}" alt="Offer 2" class="w-full h-full object-cover">
-                </div>
-            `;
+    const wrapper = document.createElement("div");
+
+    wrapper.className = "flex gap-4 opacity-0 transition-opacity duration-500";
+
+    wrapper.innerHTML = `
+        <div class="min-w-[260px] h-32 rounded-2xl overflow-hidden shadow-md">
+            <img src="${image1}" class="w-full h-full object-cover">
+        </div>
+        <div class="min-w-[260px] h-32 rounded-2xl overflow-hidden shadow-md">
+            <img src="${image2}" class="w-full h-full object-cover">
+        </div>
+    `;
+
+    offersContainer.replaceChildren(wrapper);
+
+    requestAnimationFrame(() => {
+        wrapper.classList.remove("opacity-0");
+    });
+}
+
+
+        window.onload = function () {
+
+    showBannerSkeleton();
+
+    clevertap.onUserLogin.push({
+        "Site": {
+            "Identity": "test1"
         }
+    });
 
-
-        // window.onload = function () {
-        //     clevertap.onUserLogin.push({ "Site": { "Name": "Rashid Omar","Identity":"id1", "Email": "rashid.omar@email.com", "Phone": "+60123456789" } });
-        //     setUserType('new');
-        // };
+    fetchAndRenderPEOffers();
+};renderDynamicOffers
     </script>
 </body>
 
